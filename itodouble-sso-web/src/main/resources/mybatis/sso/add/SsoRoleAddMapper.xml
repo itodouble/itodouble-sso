@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.itodouble.sso.mapper.sso.add.SsoRoleAddMapper">
+
+    <sql id="a_Base_Column_List">
+        a.id, a.create_user_id, a.create_time, a.update_user_id, a.update_time,
+        a.system_code, a.name,
+        a.code, a.enable_flag, a.del_flag
+    </sql>
+
+    <resultMap id="AddBaseResultMap" type="top.itodouble.sso.entity.sso.add.SsoRoleAdd" extends="top.itodouble.sso.mapper.sso.SsoRoleMapper.BaseResultMap">
+        <result column="system_name" property="systemName"></result>
+    </resultMap>
+
+    <select id="getUserRoleList" resultMap="top.itodouble.sso.mapper.sso.SsoRoleMapper.BaseResultMap">
+        select
+        <include refid="a_Base_Column_List"></include>
+        from sso_role a
+        inner join sso_permission b on a.id = b.role_id
+        where b.user_id = #{userId}
+        <if test="systemCode!=null and systemCode != ''">
+            and a.system_code = #{systemCode}
+        </if>
+    </select>
+
+    <select id="selectList" resultMap="AddBaseResultMap">
+        select
+            <include refid="top.itodouble.sso.mapper.sso.SsoRoleMapper.a_Base_Column_List"></include>,
+            b.system_desc as system_name
+        from sso_role a
+        left join sso_system b on a.system_code = b.system_code
+        where
+            a.del_flag = #{delFlag}
+            <if test="systemCode!=null and systemCode !=''">
+                and b.system_code = #{systemCode}
+            </if>
+            <if test="delFlag!=null and delFlag != ''">
+
+            </if>
+            <if test="enableFlag != null and enableFlag !=''">
+                and a.enable_flag = #{enableFlag}
+            </if>
+        order by a.create_time
+    </select>
+</mapper>

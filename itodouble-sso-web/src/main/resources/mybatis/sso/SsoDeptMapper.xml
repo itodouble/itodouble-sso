@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.itodouble.sso.mapper.sso.SsoDeptMapper">
+	<resultMap id="BaseResultMap" type="top.itodouble.sso.entity.sso.SsoDept">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="create_user_id" jdbcType="VARCHAR" property="createUserId"/>
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+		<result column="update_user_id" jdbcType="VARCHAR" property="updateUserId"/>
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+		<result column="org_id" jdbcType="VARCHAR" property="orgId"/>
+		<result column="name" jdbcType="VARCHAR" property="name"/>
+		<result column="code" jdbcType="VARCHAR" property="code"/>
+		<result column="parent_dept_id" jdbcType="VARCHAR" property="parentDeptId"/>
+		<result column="parent_dept_code" jdbcType="VARCHAR" property="parentDeptCode"/>
+		<result column="levels" jdbcType="INTEGER" property="levels"/>
+		<result column="org_flag" jdbcType="INTEGER" property="orgFlag"/>
+		<result column="creation_time" jdbcType="TIMESTAMP" property="creationTime"/>
+		<result column="enable_flag" jdbcType="INTEGER" property="enableFlag"/>
+		<result column="type" jdbcType="INTEGER" property="type"/>
+		<result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
+		<result column="order_id" jdbcType="INTEGER" property="orderId"/>
+	</resultMap>
+
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<sql id="Base_Column_List">
+		id, create_user_id, create_time, update_user_id, update_time, org_id, name, code, parent_dept_id, parent_dept_code, levels, org_flag, creation_time, enable_flag, type, del_flag, order_id
+	</sql>
+	<sql id="sso_dept_Base_Column_List">
+		sso_dept.id, sso_dept.create_user_id, sso_dept.create_time, sso_dept.update_user_id, sso_dept.update_time, sso_dept.org_id, sso_dept.name, sso_dept.code, sso_dept.parent_dept_id, sso_dept.parent_dept_code, sso_dept.levels, sso_dept.org_flag, sso_dept.creation_time, sso_dept.enable_flag, sso_dept.type, sso_dept.del_flag, sso_dept.order_id
+	</sql>
+
+	<sql id="a_Base_Column_List">
+		a.id, a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.org_id, a.name, a.code, a.parent_dept_id, a.parent_dept_code, a.levels, a.org_flag, a.creation_time, a.enable_flag, a.type, a.del_flag, a.order_id
+	</sql>
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from sso_dept
+			<where>
+				<if test="record.id != null">
+					and id = #{record.id,jdbcType=VARCHAR}
+				</if>
+				<if test="record.createUserId != null">
+					and create_user_id = #{record.createUserId,jdbcType=VARCHAR}
+				</if>
+				<if test="record.createTime != null">
+					and create_time = #{record.createTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="record.updateUserId != null">
+					and update_user_id = #{record.updateUserId,jdbcType=VARCHAR}
+				</if>
+				<if test="record.updateTime != null">
+					and update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="record.orgId != null">
+					and org_id = #{record.orgId,jdbcType=VARCHAR}
+				</if>
+				<if test="record.name != null">
+					and name = #{record.name,jdbcType=VARCHAR}
+				</if>
+				<if test="record.code != null">
+					and code = #{record.code,jdbcType=VARCHAR}
+				</if>
+				<if test="record.parentDeptId != null">
+					and parent_dept_id = #{record.parentDeptId,jdbcType=VARCHAR}
+				</if>
+				<if test="record.parentDeptCode != null">
+					and parent_dept_code = #{record.parentDeptCode,jdbcType=VARCHAR}
+				</if>
+				<if test="record.levels != null">
+					and levels = #{record.levels,jdbcType=INTEGER}
+				</if>
+				<if test="record.orgFlag != null">
+					and org_flag = #{record.orgFlag,jdbcType=INTEGER}
+				</if>
+				<if test="record.creationTime != null">
+					and creation_time = #{record.creationTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="record.enableFlag != null">
+					and enable_flag = #{record.enableFlag,jdbcType=INTEGER}
+				</if>
+				<if test="record.type != null">
+					and type = #{record.type,jdbcType=INTEGER}
+				</if>
+				<if test="record.delFlag != null">
+					and del_flag = #{record.delFlag,jdbcType=INTEGER}
+				</if>
+				<if test="record.orderId != null">
+					and order_id = #{record.orderId,jdbcType=INTEGER}
+				</if>
+			</where>
+		<if test="orderBy!=null and orderBy!='' and orderBy!='null'">
+			order by ${orderBy}
+		</if>
+	</select>
+
+	<select id="selectByExample" parameterType="top.itodouble.sso.entity.sso.SsoDeptExample" resultMap="BaseResultMap">
+		select
+			<if test="distinct">
+				distinct
+			</if>
+			<include refid="Base_Column_List" />
+		from sso_dept
+			<if test="_parameter != null">
+				<include refid="Example_Where_Clause" />
+			</if>
+			<if test="orderByClause != null">
+				order by ${orderByClause}
+			</if>
+	</select>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from sso_dept
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from sso_dept
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample" parameterType="top.itodouble.sso.entity.sso.SsoDeptExample">
+		delete from sso_dept
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="top.itodouble.sso.entity.sso.SsoDept">
+		insert into sso_dept
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			create_user_id,
+			create_time,
+			update_user_id,
+			update_time,
+			org_id,
+			name,
+			code,
+			parent_dept_id,
+			parent_dept_code,
+			levels,
+			org_flag,
+			creation_time,
+			enable_flag,
+			type,
+			del_flag,
+			order_id,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id,jdbcType=VARCHAR},
+			#{createUserId,jdbcType=VARCHAR},
+			#{createTime,jdbcType=TIMESTAMP},
+			#{updateUserId,jdbcType=VARCHAR},
+			#{updateTime,jdbcType=TIMESTAMP},
+			#{orgId,jdbcType=VARCHAR},
+			#{name,jdbcType=VARCHAR},
+			#{code,jdbcType=VARCHAR},
+			#{parentDeptId,jdbcType=VARCHAR},
+			#{parentDeptCode,jdbcType=VARCHAR},
+			#{levels,jdbcType=INTEGER},
+			#{orgFlag,jdbcType=INTEGER},
+			#{creationTime,jdbcType=TIMESTAMP},
+			#{enableFlag,jdbcType=INTEGER},
+			#{type,jdbcType=INTEGER},
+			#{delFlag,jdbcType=INTEGER},
+			#{orderId,jdbcType=INTEGER},
+		</trim>
+	</insert>
+
+
+	<insert id="insertSelective" parameterType="top.itodouble.sso.entity.sso.SsoDept">
+		insert into sso_dept
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="createUserId != null">
+				create_user_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateUserId != null">
+				update_user_id,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="orgId != null">
+				org_id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="code != null">
+				code,
+			</if>
+			<if test="parentDeptId != null">
+				parent_dept_id,
+			</if>
+			<if test="parentDeptCode != null">
+				parent_dept_code,
+			</if>
+			<if test="levels != null">
+				levels,
+			</if>
+			<if test="orgFlag != null">
+				org_flag,
+			</if>
+			<if test="creationTime != null">
+				creation_time,
+			</if>
+			<if test="enableFlag != null">
+				enable_flag,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+			<if test="orderId != null">
+				order_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="createUserId != null">
+				#{createUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUserId != null">
+				#{updateUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orgId != null">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="parentDeptId != null">
+				#{parentDeptId,jdbcType=VARCHAR},
+			</if>
+			<if test="parentDeptCode != null">
+				#{parentDeptCode,jdbcType=VARCHAR},
+			</if>
+			<if test="levels != null">
+				#{levels,jdbcType=INTEGER},
+			</if>
+			<if test="orgFlag != null">
+				#{orgFlag,jdbcType=INTEGER},
+			</if>
+			<if test="creationTime != null">
+				#{creationTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="enableFlag != null">
+				#{enableFlag,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=INTEGER},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="top.itodouble.sso.entity.sso.SsoDeptExample" resultType="java.lang.Long">
+		select count(*) from sso_dept
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update sso_dept
+		<set>
+			<if test="id != null">
+				id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="createUserId != null">
+				create_user_id = #{createUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUserId != null">
+				update_user_id = #{updateUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orgId != null">
+				org_id = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="parentDeptId != null">
+				parent_dept_id = #{parentDeptId,jdbcType=VARCHAR},
+			</if>
+			<if test="parentDeptCode != null">
+				parent_dept_code = #{parentDeptCode,jdbcType=VARCHAR},
+			</if>
+			<if test="levels != null">
+				levels = #{levels,jdbcType=INTEGER},
+			</if>
+			<if test="orgFlag != null">
+				org_flag = #{orgFlag,jdbcType=INTEGER},
+			</if>
+			<if test="creationTime != null">
+				creation_time = #{creationTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="enableFlag != null">
+				enable_flag = #{enableFlag,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=INTEGER},
+			</if>
+			<if test="orderId != null">
+				order_id = #{orderId,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update sso_dept
+		<set>
+			id = #{id,jdbcType=VARCHAR},
+			create_user_id = #{createUserId,jdbcType=VARCHAR},
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+			update_user_id = #{updateUserId,jdbcType=VARCHAR},
+			update_time = #{updateTime,jdbcType=TIMESTAMP},
+			org_id = #{orgId,jdbcType=VARCHAR},
+			name = #{name,jdbcType=VARCHAR},
+			code = #{code,jdbcType=VARCHAR},
+			parent_dept_id = #{parentDeptId,jdbcType=VARCHAR},
+			parent_dept_code = #{parentDeptCode,jdbcType=VARCHAR},
+			levels = #{levels,jdbcType=INTEGER},
+			org_flag = #{orgFlag,jdbcType=INTEGER},
+			creation_time = #{creationTime,jdbcType=TIMESTAMP},
+			enable_flag = #{enableFlag,jdbcType=INTEGER},
+			type = #{type,jdbcType=INTEGER},
+			del_flag = #{delFlag,jdbcType=INTEGER},
+			order_id = #{orderId,jdbcType=INTEGER},
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+
+	<update id="updateByPrimaryKeySelective" parameterType="top.itodouble.sso.entity.sso.SsoDept">
+		update sso_dept
+		<set>
+			<if test="createUserId != null">
+				create_user_id = #{createUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUserId != null">
+				update_user_id = #{updateUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orgId != null">
+				org_id = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="parentDeptId != null">
+				parent_dept_id = #{parentDeptId,jdbcType=VARCHAR},
+			</if>
+			<if test="parentDeptCode != null">
+				parent_dept_code = #{parentDeptCode,jdbcType=VARCHAR},
+			</if>
+			<if test="levels != null">
+				levels = #{levels,jdbcType=INTEGER},
+			</if>
+			<if test="orgFlag != null">
+				org_flag = #{orgFlag,jdbcType=INTEGER},
+			</if>
+			<if test="creationTime != null">
+				creation_time = #{creationTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="enableFlag != null">
+				enable_flag = #{enableFlag,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=INTEGER},
+			</if>
+			<if test="orderId != null">
+				order_id = #{orderId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="top.itodouble.sso.entity.sso.SsoDept">
+		update sso_dept
+		<set>
+			create_user_id = #{createUserId,jdbcType=VARCHAR},
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+			update_user_id = #{updateUserId,jdbcType=VARCHAR},
+			update_time = #{updateTime,jdbcType=TIMESTAMP},
+			org_id = #{orgId,jdbcType=VARCHAR},
+			name = #{name,jdbcType=VARCHAR},
+			code = #{code,jdbcType=VARCHAR},
+			parent_dept_id = #{parentDeptId,jdbcType=VARCHAR},
+			parent_dept_code = #{parentDeptCode,jdbcType=VARCHAR},
+			levels = #{levels,jdbcType=INTEGER},
+			org_flag = #{orgFlag,jdbcType=INTEGER},
+			creation_time = #{creationTime,jdbcType=TIMESTAMP},
+			enable_flag = #{enableFlag,jdbcType=INTEGER},
+			type = #{type,jdbcType=INTEGER},
+			del_flag = #{delFlag,jdbcType=INTEGER},
+			order_id = #{orderId,jdbcType=INTEGER},
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

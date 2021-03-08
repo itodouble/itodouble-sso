@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.itodouble.sso.mapper.sso.add.SsoUserAddMapper">
+  <resultMap id="add_BaseResultMap" type="top.itodouble.sso.entity.sso.add.SsoUserAdd">
+    <result column="login_able" property="loginAble" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectByMobileOrCodeWithPassword" resultMap="add_BaseResultMap">
+    select <include refid="top.itodouble.sso.mapper.sso.SsoUserMapper.a_Base_Column_List"></include>,
+           b.login_able, b.password
+    from sso_user a
+    left join sso_user_security b on a.id = b.user_id
+    where a.del_flag = 0
+    and (a.mobile = #{keyword,jdbcType=VARCHAR} or a.code = #{keyword,jdbcType=VARCHAR})
+    limit 1
+  </select>
+
+  <select id="selectByMobileOrCode" resultMap="top.itodouble.sso.mapper.sso.SsoUserMapper.BaseResultMap">
+    select <include refid="top.itodouble.sso.mapper.sso.SsoUserMapper.Base_Column_List"></include>
+    from sso_user
+    where del_flag = 0
+    and (mobile = #{keyword,jdbcType=VARCHAR} or code = #{keyword,jdbcType=VARCHAR})
+    limit 1
+  </select>
+
+  <select id="selectUserName" resultType="java.util.Map">
+    select id, name from sso_user
+    where id in
+    <foreach collection="userId" item="item" separator="," open="(" close=")" index="">
+      #{item, jdbcType=VARCHAR}
+    </foreach>
+  </select>
+
+  <select id="selectUserListByKeyword" resultType="java.util.Map">
+    select distinct id, name, mobile from sso_user
+    <where>
+      <if test="keyword!=null and keyword!=''">
+        and (
+        instr(name, #{keyword}) or instr(mobile, #{keyword}) or instr(email, #{keyword}) or instr(code, #{keyword})
+        )
+      </if>
+      <if test="id!=null and id!=''">
+        and id = #{id}
+      </if>
+    </where>
+    <if test="limitStr != null and limitStr != ''">
+      #{limitStr}
+    </if>
+  </select>
+  <select id="selectUserListByKeywordCount" resultType="java.lang.Integer">
+    select count(0)
+    from sso_user
+    <where>
+      <if test="keyword!=null and keyword!=''">
+        and (
+        instr(name, #{keyword}) or instr(mobile, #{keyword}) or instr(email, #{keyword}) or instr(code, #{keyword})
+        )
+      </if>
+      <if test="id!=null and id!=''">
+        and id = #{id}
+      </if>
+    </where>
+  </select>
+
+</mapper>

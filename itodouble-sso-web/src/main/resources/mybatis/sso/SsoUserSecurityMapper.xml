@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.itodouble.sso.mapper.sso.SsoUserSecurityMapper">
+	<resultMap id="BaseResultMap" type="top.itodouble.sso.entity.sso.SsoUserSecurity">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="create_user_id" jdbcType="VARCHAR" property="createUserId"/>
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+		<result column="update_user_id" jdbcType="VARCHAR" property="updateUserId"/>
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+		<result column="user_id" jdbcType="VARCHAR" property="userId"/>
+		<result column="login_able" jdbcType="INTEGER" property="loginAble"/>
+		<result column="password" jdbcType="VARCHAR" property="password"/>
+	</resultMap>
+
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+
+	<sql id="Base_Column_List">
+		id, create_user_id, create_time, update_user_id, update_time, user_id, login_able, password
+	</sql>
+	<sql id="sso_user_security_Base_Column_List">
+		sso_user_security.id, sso_user_security.create_user_id, sso_user_security.create_time, sso_user_security.update_user_id, sso_user_security.update_time, sso_user_security.user_id, sso_user_security.login_able, sso_user_security.password
+	</sql>
+
+	<sql id="a_Base_Column_List">
+		a.id, a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.user_id, a.login_able, a.password
+	</sql>
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from sso_user_security
+			<where>
+				<if test="record.id != null">
+					and id = #{record.id,jdbcType=VARCHAR}
+				</if>
+				<if test="record.createUserId != null">
+					and create_user_id = #{record.createUserId,jdbcType=VARCHAR}
+				</if>
+				<if test="record.createTime != null">
+					and create_time = #{record.createTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="record.updateUserId != null">
+					and update_user_id = #{record.updateUserId,jdbcType=VARCHAR}
+				</if>
+				<if test="record.updateTime != null">
+					and update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="record.userId != null">
+					and user_id = #{record.userId,jdbcType=VARCHAR}
+				</if>
+				<if test="record.loginAble != null">
+					and login_able = #{record.loginAble,jdbcType=INTEGER}
+				</if>
+				<if test="record.password != null">
+					and password = #{record.password,jdbcType=VARCHAR}
+				</if>
+			</where>
+		<if test="orderBy!=null and orderBy!='' and orderBy!='null'">
+			order by ${orderBy}
+		</if>
+	</select>
+
+	<select id="selectByExample" parameterType="top.itodouble.sso.entity.sso.SsoUserSecurityExample" resultMap="BaseResultMap">
+		select
+			<if test="distinct">
+				distinct
+			</if>
+			<include refid="Base_Column_List" />
+		from sso_user_security
+			<if test="_parameter != null">
+				<include refid="Example_Where_Clause" />
+			</if>
+			<if test="orderByClause != null">
+				order by ${orderByClause}
+			</if>
+	</select>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from sso_user_security
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from sso_user_security
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample" parameterType="top.itodouble.sso.entity.sso.SsoUserSecurityExample">
+		delete from sso_user_security
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="top.itodouble.sso.entity.sso.SsoUserSecurity">
+		insert into sso_user_security
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			create_user_id,
+			create_time,
+			update_user_id,
+			update_time,
+			user_id,
+			login_able,
+			password,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id,jdbcType=VARCHAR},
+			#{createUserId,jdbcType=VARCHAR},
+			#{createTime,jdbcType=TIMESTAMP},
+			#{updateUserId,jdbcType=VARCHAR},
+			#{updateTime,jdbcType=TIMESTAMP},
+			#{userId,jdbcType=VARCHAR},
+			#{loginAble,jdbcType=INTEGER},
+			#{password,jdbcType=VARCHAR},
+		</trim>
+	</insert>
+
+
+	<insert id="insertSelective" parameterType="top.itodouble.sso.entity.sso.SsoUserSecurity">
+		insert into sso_user_security
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="createUserId != null">
+				create_user_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateUserId != null">
+				update_user_id,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="loginAble != null">
+				login_able,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="createUserId != null">
+				#{createUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUserId != null">
+				#{updateUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="loginAble != null">
+				#{loginAble,jdbcType=INTEGER},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="top.itodouble.sso.entity.sso.SsoUserSecurityExample" resultType="java.lang.Long">
+		select count(*) from sso_user_security
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update sso_user_security
+		<set>
+			<if test="id != null">
+				id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="createUserId != null">
+				create_user_id = #{createUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUserId != null">
+				update_user_id = #{updateUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="loginAble != null">
+				login_able = #{loginAble,jdbcType=INTEGER},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update sso_user_security
+		<set>
+			id = #{id,jdbcType=VARCHAR},
+			create_user_id = #{createUserId,jdbcType=VARCHAR},
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+			update_user_id = #{updateUserId,jdbcType=VARCHAR},
+			update_time = #{updateTime,jdbcType=TIMESTAMP},
+			user_id = #{userId,jdbcType=VARCHAR},
+			login_able = #{loginAble,jdbcType=INTEGER},
+			password = #{password,jdbcType=VARCHAR},
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+
+	<update id="updateByPrimaryKeySelective" parameterType="top.itodouble.sso.entity.sso.SsoUserSecurity">
+		update sso_user_security
+		<set>
+			<if test="createUserId != null">
+				create_user_id = #{createUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUserId != null">
+				update_user_id = #{updateUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="loginAble != null">
+				login_able = #{loginAble,jdbcType=INTEGER},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="top.itodouble.sso.entity.sso.SsoUserSecurity">
+		update sso_user_security
+		<set>
+			create_user_id = #{createUserId,jdbcType=VARCHAR},
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+			update_user_id = #{updateUserId,jdbcType=VARCHAR},
+			update_time = #{updateTime,jdbcType=TIMESTAMP},
+			user_id = #{userId,jdbcType=VARCHAR},
+			login_able = #{loginAble,jdbcType=INTEGER},
+			password = #{password,jdbcType=VARCHAR},
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

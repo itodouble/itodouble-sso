@@ -1,0 +1,81 @@
+server:
+  tomcat:
+    uri-encoding: utf-8
+  port: 8087
+system:
+  code: itodouble-sso
+finance:
+  sso:
+    domain: fate.gold,deeeper.top,itodouble.top
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 150MB
+  application:
+    name: finance-sso
+  freemarker:
+    template-loader-path: classpath:/template/
+  datasource:
+    sso:
+      dbname: sso
+      jdbcUrl: jdbc:mysql://127.0.0.1:3306/itodouble_sso_test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+      username: root
+      password: 123456
+      driverClassName: com.mysql.cj.jdbc.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
+      initialSize: 5
+      maxActive: 50
+      minIdle: 2
+      testWhileIdle: true
+      connectionInitSqls: select now()
+dubbo:
+  application:
+    name: itodouble-sso
+  registry:
+    address: 127.0.0.1:2181
+    protocol: zookeeper
+    check: false
+  protocol:
+    name: dubbo
+    port: 30105
+  monitor:
+    protocol: register
+  consumer:
+    check: false
+    timeout: 3000
+  scan:
+    base-packages: top.itodouble.sso.apiServiceImpl
+  version:
+    finance-sso: 1.0.0
+mybatis:
+  config-location: classpath:mybatis-config.xml
+redis:
+  host: 127.0.0.1
+  port: 6379
+  password: itodouble
+  minIdle: 10
+  maxIdle: 300
+  maxTotal: 800
+  timeoutMS: 1000
+  testOnBorrow: true
+  database: 5
+
+shiro:
+  loginUrl: "/front/login/doLogin"
+  UnauthorizedUrl: "/400"
+  hashalgorithmname: MD5
+  hashinterations: 1
+  token:
+    secret: itodouble
+    issuer: top.itodouble
+    access:
+      expire:
+        ## 存放redis中时是否会过期
+        redisFlag: true
+        ## 单位秒 60*60*24*7 7天
+        redisTime: 604800
+        ## accessToken是否会过期
+        flag: false
+        ## 过期时间 单位毫秒 5 分钟  5*60*1000
+        time: 300000

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.itodouble.sso.mapper.sso.add.SsoPostAddMapper">
+	<resultMap id="AddBaseResultMap" type="top.itodouble.sso.entity.sso.add.SsoPostAdd" extends="top.itodouble.sso.mapper.sso.SsoPostMapper.BaseResultMap">
+		<result column="dept_name" property="deptName" />
+		<result column="org_name" property="orgName" />
+	</resultMap>
+
+</mapper>

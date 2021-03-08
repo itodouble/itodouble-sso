@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.itodouble.sso.mapper.sso.add.SsoPermissionAddMapper">
+	<resultMap id="AddBaseResultMap" type="top.itodouble.sso.entity.sso.add.SsoPermissionAdd" extends="top.itodouble.sso.mapper.sso.SsoPermissionMapper.BaseResultMap">
+		<result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+		<result column="role_name" jdbcType="VARCHAR" property="roleName" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="create_user_name" jdbcType="VARCHAR" property="createUserName"/>
+		<result column="update_user_name" jdbcType="VARCHAR" property="updateUserName" />
+	</resultMap>
+
+	<resultMap id="AddMenuBaseResultMap" type="top.itodouble.sso.entity.sso.add.SsoMenuAdd" extends="top.itodouble.sso.mapper.sso.SsoMenuMapper.BaseResultMap">
+		<result column="role_id" property="roleId" />
+	</resultMap>
+
+	<resultMap id="AddUserBaseResultMap" type="top.itodouble.sso.entity.sso.add.SsoUserAdd" extends="top.itodouble.sso.mapper.sso.SsoUserMapper.BaseResultMap">
+		<result column="enable_flag" property="enableFlag" />
+		<result column="permission_id" property="permissionId" />
+	</resultMap>
+
+	<select id="menuRoleLeft" resultMap="AddMenuBaseResultMap">
+		select
+			a.id, a.system_code, a.name, a.parent_id, a.url_path, a.url_type, a.permission_code, a.component, a.hide_flag, a.sort, a.del_flag, a.enable_flag, a.url_meta,
+			case c.role_id when #{roleId} then true else false end as checked
+		from sso_menu a
+		left join
+			(
+				select b.role_id ,b.menu_id from sso_permission b where b.role_id = #{roleId} and b.del_flag = 0 and b.enable_flag = 1
+			) c on c.menu_id = a.id
+		where  a.del_flag = 0
+			<if test="systemCode!=null and systemCode!=''">
+				and a.system_code = #{systemCode}
+			</if>
+			<if test="parentId!=null and parentId!=''">
+				and a.parent_id = #{parentId}
+			</if>
+			<if test="enableFlag != null">
+				and a.enable_flag = #{enableFlag,jdbcType=INTEGER}
+			</if>
+		order by a.sort
+	</select>
+
+	<select id="list" resultMap="AddBaseResultMap">
+		select <include refid="top.itodouble.sso.mapper.sso.SsoPermissionMapper.a_Base_Column_List"></include>,
+			b.name as menu_name,
+			c.name as role_name,
+			d.name as user_name
+		from sso_permission a
+		left join sso_menu b on a.menu_id = b.id
+		left join sso_role c on a.role_id = c.id
+		left join sso_user d on a.user_id = d.id
+		<where>
+			<if test="delFlag!=null and delFlag !=''">
+				and a.del_flag = #{delFlag}
+			</if>
+		</where>
+	</select>
+
+	<select id="userRoleList" resultMap="AddUserBaseResultMap">
+		select
+			su.*,
+			sp.id as permission_id, sp.enable_flag
+		from sso_permission sp
+		inner join sso_user su on sp.user_id = su.id
+		where sp.role_id = #{roleId} and sp.del_flag = 0 and su.del_flag = 0
+	</select>
+
+</mapper>

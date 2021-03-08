@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.itodouble.sso.mapper.sso.add.SsoDeptAddMapper">
+	<resultMap id="AddBaseResultMap" type="top.itodouble.sso.entity.sso.add.SsoDeptAdd">
+		<result column="org_name" property="orgName" />
+		<result column="org_code" property="orgCode" />
+		<result column="parent_dept_name" property="parentDeptName" />
+	</resultMap>
+
+	<select id="selectList" resultMap="AddBaseResultMap">
+		select
+			<include refid="top.itodouble.sso.mapper.sso.SsoDeptMapper.a_Base_Column_List"></include>,
+			b.name as parent_dept_name,
+			c.code as org_code, c.name as org_name
+		from sso_dept a
+		left join sso_dept b on a.parent_dept_id = b.id
+		left join sso_dept c on a.org_id = c.id
+		where
+			a.del_flag = #{delFlag}
+			<if test="parentDeptId != null and parentDeptId!=''">
+				and a.parent_dept_id = #{parentDeptId}
+			</if>
+			<if test="parentDeptId == null || parentDeptId == ''">
+				and (a.parent_dept_id ='' or a.parent_dept_id is null)
+			</if>
+			<if test="orgId != null and orgId!=''">
+				and a.org_id = #{orgId}
+			</if>
+			<if test="enableFlag !=null and enableFlag!=''">
+				and a.enable_flag = #{enableFlag}
+			</if>
+			<if test="orgFlag != null and orgFlag != ''">
+				and a.org_flag = #{orgFlag}
+			</if>
+			<if test="type!=null and type!=''">
+				and a.type = #{type}
+			</if>
+			<if test="keyword != null and keyword!=''">
+				and (
+				instr(a.name, #{keyword})
+				or instr(a.code, #{keyword})
+				)
+			</if>
+			order by order_id
+	</select>
+
+</mapper>

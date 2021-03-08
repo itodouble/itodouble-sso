@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.itodouble.sso.mapper.sso.add.SsoDictAddMapper">
+    <select id="getBySystemCodeAndPrefixAndSnAndData" resultMap="top.itodouble.sso.mapper.sso.SsoDictMapper.BaseResultMap">
+        select <include refid="top.itodouble.sso.mapper.sso.SsoDictMapper.Base_Column_List"></include>
+        from sso_dict
+        <where>
+            <if test="systemCode!=null and systemCode!=''">
+                and system_code = #{systemCode}
+            </if>
+            <if test="dictPrefix!=null and dictPrefix!=''">
+                and dict_prefix = #{dictPrefix)
+            </if>
+            <if test="dictSn!=null and dictSn!=''">
+                and dict_sn = #{dictSn}
+            </if>
+            <if test="dictData !=null and dictData!='">
+                and dict_data=#{dictData}
+            </if>
+        </where>
+        order by order_id desc
+        limit 1
+    </select>
+
+    <select id="getBySystemCodeAndPrefixAndSnOrData" resultMap="top.itodouble.sso.mapper.sso.SsoDictMapper.BaseResultMap">
+        select <include refid="top.itodouble.sso.mapper.sso.SsoDictMapper.Base_Column_List"></include>
+        from sso_dict
+        <where>
+            <if test="systemCode!=null and systemCode!=''">
+                and system_code = #{systemCode}
+            </if>
+            <if test="dictPrefix!=null and dictPrefix!=''">
+                and dict_prefix = #{dictPrefix)
+            </if>
+
+            <if test="key!=null and key!=''">
+                and (
+                dict_sn = #{key}
+                or
+                dict_data=#{key}
+                )
+            </if>
+        </where>
+        order by order_id desc
+        limit 1
+    </select>
+</mapper>
